@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt Me Trading Calculator</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #fff, transparent);
+            border-radius: 50%;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ffd700, transparent);
+            border-radius: 50%;
+            top: 50%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+        
+        .shape3 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #ff69b4, transparent);
+            border-radius: 50%;
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 10s;
+        }
+        
+        .shape4 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #00ffff, transparent);
+            border-radius: 50%;
+            top: 30%;
+            right: 30%;
+            animation-delay: 15s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            33% { transform: translate(50px, -80px) rotate(120deg) scale(1.1); }
+            66% { transform: translate(-50px, 50px) rotate(240deg) scale(0.9); }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pet-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .pet-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transition: 0.6s;
+        }
+        
+        .pet-card:hover::before {
+            left: 100%;
+        }
+        
+        .pet-card:hover {
+            transform: translateY(-15px) scale(1.08) rotateZ(2deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+        
+        .slot {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .slot:hover {
+            transform: scale(1.05);
+        }
+        
+        .slot::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .trade-bar-container {
+            position: relative;
+            height: 8px;
+            background: rgba(100, 100, 100, 0.3);
+            border-radius: 25px;
+            overflow: visible;
+        }
+        
+        .trade-bar-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: #ef4444;
+            border-radius: 25px;
+            transition: width 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+        
+        .pulse {
+            animation: pulse 2.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            50% { transform: scale(1.08); box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0); }
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787, #ffa07a);
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+        
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-gradient:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .legendary-glow {
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.7), 0 5px 25px rgba(0, 0, 0, 0.3);
+            border-color: #ffd700 !important;
+            background: linear-gradient(135deg, #fff9e6, #fffaf0);
+        }
+        
+        .ultra-rare-glow {
+            box-shadow: 0 0 35px rgba(138, 43, 226, 0.7), 0 5px 25px rgba(0, 0, 0, 0.3);
+            border-color: #8a2be2 !important;
+            background: linear-gradient(135deg, #f3e8ff, #faf5ff);
+        }
+        
+        .rare-glow {
+            box-shadow: 0 0 35px rgba(65, 105, 225, 0.7), 0 5px 25px rgba(0, 0, 0, 0.3);
+            border-color: #4169e1 !important;
+            background: linear-gradient(135deg, #eff6ff, #f0f9ff);
+        }
+        
+        .badge-legendary {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #8b6914;
+            font-weight: 800;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+        }
+        
+        .badge-ultra-rare {
+            background: linear-gradient(135deg, #8a2be2, #9d4edd);
+            color: white;
+            font-weight: 800;
+        }
+        
+        .badge-rare {
+            background: linear-gradient(135deg, #4169e1, #5b8def);
+            color: white;
+            font-weight: 800;
+        }
+        
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.8rem;
+        }
+
+        .modal-backdrop.show {
+            opacity: 0.8;
+        }
+
+        .category-btn {
+            background: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+        <div class="shape shape4"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar glass-card position-relative" style="z-index: 10; margin: 1rem; border-radius: 25px;">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center">
+                <div class="bg-gradient rounded-4 p-3 me-3 pulse" style="background: linear-gradient(135deg, #ffd700, #ff6b6b, #9d4edd) !important;">
+                    <span style="font-size: 2rem;">🐾</span>
+                </div>
+                <div>
+                    <h1 class="navbar-brand mb-0" style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Adopt Me
+                    </h1>
+                    <small class="text-muted fw-bold">Trading Calculator 2025</small>
+                </div>
+            </div>
+            <div class="d-flex gap-3">
+                <a href="index.html" class="btn btn-light rounded-pill px-4 py-2 fw-bold">Home</a>
+                <a href="value.html" class="btn btn-light rounded-pill px-4 py-2 fw-bold">Value Data</a>
+                <a href="trade.html" class="btn btn-gradient text-white px-4 py-2 rounded-pill fw-bold">
+                    <i class="bi bi-lightning-charge-fill me-2"></i>Calculator
+                </a>
+                <a href="index.html" class="btn btn-light rounded-pill px-4 py-2 fw-bold">About</a>
+            </div>
+    </nav>
+
+    <div class="container-fluid px-3 py-4 position-relative" style="z-index: 10;">
+        <!-- Trading Interface -->
+        <div class="glass-card rounded-4 p-4 mb-4">
+            <div class="text-center mb-5">
+                <div class="d-flex align-items-center justify-content-between gap-3 p-4 rounded-5 mx-auto" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(243, 147, 251, 0.1)); max-width: 900px;">
+                    <div class="text-center" style="min-width: 100px;">
+                        <div class="display-2 fw-black text-danger glow-text" id="yourValue">0</div>
+                    </div>
+                    <div class="text-center flex-grow-1">
+                        <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
+                            <span class="fw-bold text-muted" style="font-size: 0.9rem;">YOUR OFFER</span>
+                            <span class="text-muted">|</span>
+                            <span class="fw-bold text-muted" style="font-size: 0.9rem;">THEIR OFFER</span>
+                        </div>
+                        <div class="trade-bar-container mx-auto" style="width: 100%; max-width: 500px;">
+                            <div class="trade-bar-fill" id="tradeBar" style="width: 50%;"></div>
+                        </div>
+                        <div id="tradeDifference" class="h3 fw-bold mt-3 text-danger">-</div>
+                    </div>
+                    <div class="text-center" style="min-width: 100px;">
+                        <div class="display-2 fw-black text-muted glow-text" id="theirValue">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Your Offer -->
+                <div class="col-lg-6">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0 text-primary">Your Offer</h5>
+                        <span class="badge bg-primary" id="yourCount">0/9</span>
+                    </div>
+                    <div class="row g-2" id="yourOffer">
+                        <!-- Initial 9 slots -->
+                        <div class="col-4">
+                            <div class="slot rounded-3 d-flex align-items-center justify-content-center" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 0)">
+                                <span class="display-4 text-muted fw-bold">+</span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 1)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 2)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 3)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 4)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 5)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 6)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 7)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', 8)"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Their Offer -->
+                <div class="col-lg-6">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0 text-danger">Their Offer</h5>
+                        <span class="badge bg-danger" id="theirCount">0/9</span>
+                    </div>
+                    <div class="row g-2" id="theirOffer">
+                        <!-- Initial 9 slots -->
+                        <div class="col-4">
+                            <div class="slot rounded-3 d-flex align-items-center justify-content-center" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 0)">
+                                <span class="display-4 text-muted fw-bold">+</span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 1)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 2)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 3)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 4)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 5)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 6)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 7)"></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', 8)"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <div class="d-flex gap-2 justify-content-center">
+                    <button onclick="clearTrade()" class="btn btn-danger btn-lg rounded-pill px-5 fw-bold">
+                        <i class="bi bi-trash-fill me-2"></i>Clear All
+                    </button>
+                    <button onclick="swapTrade()" class="btn btn-success btn-lg rounded-pill px-5 fw-bold">
+                        <i class="bi bi-arrow-left-right me-2"></i>Swap Sides
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk memilih kategori dan item -->
+    <div class="modal fade" id="itemModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content" style="background: #1a1a1a; color: white; border-radius: 20px;">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Select Item</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Category Buttons -->
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <button class="btn category-btn rounded-pill px-4 py-2 active" data-category="pets">
+                            <i class="bi bi-stars me-2"></i>Pets
+                        </button>
+                        <button class="btn category-btn rounded-pill px-4 py-2" data-category="eggs">
+                            <i class="bi bi-egg me-2"></i>Eggs
+                        </button>
+                        <button class="btn category-btn rounded-pill px-4 py-2" data-category="wear">
+                            <i class="bi bi-star me-2"></i>Pet Wear
+                        </button>
+                        <button class="btn category-btn rounded-pill px-4 py-2" data-category="stroller">
+                            <i class="bi bi-cart me-2"></i>Stroller
+                        </button>
+                        <button class="btn category-btn rounded-pill px-4 py-2" data-category="food">
+                            <i class="bi bi-cup-straw me-2"></i>Food
+                        </button>
+                        <button class="btn category-btn rounded-pill px-4 py-2" data-category="toys">
+                            <i class="bi bi-controller me-2"></i>Toys
+                        </button>
+                        <button class="btn category-btn rounded-pill px-4 py-2" data-category="gifts">
+                            <i class="bi bi-gift me-2"></i>Gifts
+                        </button>
+                        <button class="btn category-btn rounded-pill px-4 py-2" data-category="wings">
+                            <i class="bi bi-feather me-2"></i>Wings
+                        </button>
+                        <button class="btn category-btn rounded-pill px-4 py-2" data-category="house">
+                            <i class="bi bi-house me-2"></i>House
+                        </button>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="input-group mb-4">
+                        <input type="text" id="modalSearch" class="form-control" placeholder="Search items..." style="background: #2a2a2a; border: 2px solid #3a3a3a; color: white;">
+                    </div>
+
+                    <!-- Items Grid -->
+                    <div id="modalItemsGrid" class="row row-cols-3 row-cols-md-5 row-cols-lg-6 g-3" style="max-height: 400px; overflow-y: auto;">
+                        <!-- Items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk konfigurasi Pet -->
+    <div class="modal fade" id="petConfigModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: #1a1a1a; color: white; border-radius: 20px;">
+                <div class="modal-header border-0">
+                    <div>
+                        <h5 class="modal-title fw-bold mb-1"><i class="bi bi-gear-fill me-2"></i>Configure Pet</h5>
+                        <small class="text-muted">Set your pet's configuration and quantity</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Selected Pet Display -->
+                    <div class="mb-4 p-3 rounded-3" style="background: #2a2a2a; border: 2px solid #3a3a3a;">
+                        <div class="d-flex align-items-center gap-3">
+                            <div id="configPetImage" class="fs-1">🐾</div>
+                            <div>
+                                <h6 class="fw-bold mb-1" id="configPetName">Pet Name</h6>
+                                <small class="text-muted">Base Value: <span id="configPetBaseValue">0</span></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pet Configuration -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Pet Configuration</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn config-btn rounded-pill px-4 py-2" data-config="F" style="background: #3b82f6; border: 2px solid #3b82f6; color: white;">
+                                F
+                            </button>
+                            <button class="btn config-btn rounded-pill px-4 py-2" data-config="R" style="background: #ef4444; border: 2px solid #ef4444; color: white;">
+                                R
+                            </button>
+                            <button class="btn config-btn rounded-pill px-4 py-2" data-config="D" style="background: #2a2a2a; border: 2px solid #3a3a3a; color: white;">
+                                D
+                            </button>
+                            <button class="btn config-btn rounded-pill px-4 py-2" data-config="N" style="background: #2a2a2a; border: 2px solid #3a3a3a; color: white;">
+                                N
+                            </button>
+                            <button class="btn config-btn rounded-pill px-4 py-2" data-config="M" style="background: #2a2a2a; border: 2px solid #3a3a3a; color: white;">
+                                M
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Quantity</h6>
+                        <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background: #2a2a2a;">
+                            <button class="btn btn-danger rounded-circle" onclick="decrementQuantity()" style="width: 45px; height: 45px; font-size: 1.5rem; padding: 0; line-height: 1;">-</button>
+                            <div class="flex-grow-1 text-center">
+                                <h3 class="mb-0 fw-bold" id="petQuantity">1</h3>
+                            </div>
+                            <button class="btn btn-success rounded-circle" onclick="incrementQuantity()" style="width: 45px; height: 45px; font-size: 1.5rem; padding: 0; line-height: 1;">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Calculated Value Display -->
+                    <div class="mb-4 p-3 rounded-3 text-center" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <small class="text-white-50">Total Value</small>
+                        <h4 class="mb-0 fw-bold text-white" id="configTotalValue">0</h4>
+                    </div>
+
+                    <!-- Add Button -->
+                    <button class="btn w-100 py-3 rounded-pill fw-bold" onclick="addConfiguredPet()" style="background: linear-gradient(135deg, #a78bfa, #7c3aed); color: white; font-size: 1.1rem;">
+                        Add to Calculator
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Data items (hardcoded untuk demonstrasi)
+        const allItems = {
+            pets: [
+                { name: 'Dragon', value: 15, image: '🐲', rarity: 'Legendary' },
+                { name: 'Shadow Dragon', value: 1450, image: '🐉', rarity: 'Legendary' },
+                { name: 'Giraffe', value: 950, image: '🦒', rarity: 'Legendary' },
+                { name: 'Frost Dragon', value: 750, image: '❄️', rarity: 'Legendary' },
+                { name: 'Parrot', value: 450, image: '🦜', rarity: 'Legendary' },
+                { name: 'Owl', value: 680, image: '🦉', rarity: 'Legendary' },
+                { name: 'Crow', value: 350, image: '🐦‍⬛', rarity: 'Legendary' },
+                { name: 'Turtle', value: 140, image: '🐢', rarity: 'Legendary' },
+                { name: 'Unicorn', value: 15, image: '🦄', rarity: 'Legendary' },
+                { name: 'Shark', value: 13, image: '🦈', rarity: 'Legendary' },
+                { name: 'Panda', value: 8, image: '🐼', rarity: 'Ultra Rare' },
+                { name: 'Pig', value: 50, image: '🐷', rarity: 'Rare' },
+                { name: 'Cow', value: 85, image: '🐮', rarity: 'Rare' },
+                { name: 'Mouse', value: 0.9, image: '🐭', rarity: 'Common' },
+                { name: 'Chick', value: 28, image: '🐤', rarity: 'Common' },
+            ],
+            eggs: [
+                { name: 'Safari Egg', value: 23, image: '🥚', rarity: 'Legendary' },
+                { name: 'Farm Egg', value: 22, image: '🥚', rarity: 'Legendary' },
+                { name: 'Jungle Egg', value: 19, image: '🥚', rarity: 'Legendary' },
+                { name: 'Aussie Egg', value: 15, image: '🥚', rarity: 'Legendary' },
+                { name: 'Astec Egg', value: 4, image: '🥚', rarity: 'Legendary' },
+            ],
+            wear: [
+                { name: 'Crown', value: 2, image: '👑', rarity: 'Ultra Rare' },
+                { name: 'Sunglasses', value: 1, image: '🕶️', rarity: 'Common' },
+                { name: 'Crown', value: 2, image: '👑', rarity: 'Ultra Rare' },
+                { name: 'Sunglasses', value: 1, image: '🕶️', rarity: 'Common' },
+                { name: 'Crown', value: 2, image: '👑', rarity: 'Ultra Rare' },
+            ],
+            stroller: [
+                { name: 'Pumpkin Stroller', value: 200, image: '🎃', rarity: 'Rare' },
+                { name: 'Kangaroo Stroller', value: 180, image: '🦘', rarity: 'Ultra Rare' },
+            ],
+            food: [
+                { name: 'Honeypot', value: 25, image: '🍯', rarity: 'Common' },
+                { name: 'Lollipop', value: 10, image: '🍭', rarity: 'Common' },
+            ],
+            toys: [
+                { name: 'Rubber Ball', value: 15, image: '⚽', rarity: 'Common' },
+                { name: 'Frisbee', value: 20, image: '🥏', rarity: 'Common' },
+            ],
+            gifts: [
+                { name: 'Christmas Gift', value: 300, image: '🎁', rarity: 'Rare' },
+                { name: 'Birthday Gift', value: 150, image: '🎁', rarity: 'Rare' },
+            ],
+            wings: [
+                { name: 'Butterfly Wings', value: 100, image: '🦋', rarity: 'Uncommon' },
+                { name: 'Dragon Wings', value: 250, image: '🪽', rarity: 'Rare' },
+            ],
+            house: [
+                { name: 'Mansion', value: 500, image: '🏰', rarity: 'Legendary' },
+                { name: 'Tree House', value: 200, image: '🏠', rarity: 'Rare' },
+            ]
+        };
+
+        let yourOfferItems = [];
+        let theirOfferItems = [];
+        let activeSlotSide = null;
+        let activeSlotIndex = null;
+        let currentCategory = 'pets';
+        let modal = null;
+        let petConfigModal = null;
+        let yourMaxSlots = 9;
+        let theirMaxSlots = 9;
+        let selectedPetForConfig = null;
+        let petConfig = { F: false, R: false, age: 'D', quantity: 1 };
+
+        // Initialize modal
+        document.addEventListener('DOMContentLoaded', function() {
+            modal = new bootstrap.Modal(document.getElementById('itemModal'));
+            petConfigModal = new bootstrap.Modal(document.getElementById('petConfigModal'));
+            
+            // Category button listeners
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.dataset.category;
+                    displayModalItems();
+                });
+            });
+
+            // Search listener
+            document.getElementById('modalSearch').addEventListener('input', displayModalItems);
+
+            // Config button listeners
+            document.querySelectorAll('.config-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const config = this.dataset.config;
+                    
+                    if (config === 'F' || config === 'R') {
+                        // F and R can be toggled independently
+                        petConfig[config] = !petConfig[config];
+                        this.style.background = petConfig[config] ? 
+                            (config === 'F' ? '#3b82f6' : '#ef4444') : '#2a2a2a';
+                        this.style.borderColor = petConfig[config] ? 
+                            (config === 'F' ? '#3b82f6' : '#ef4444') : '#3a3a3a';
+                    } else {
+                        // D, N and M are mutually exclusive
+                        petConfig.age = config;
+                        document.querySelectorAll('.config-btn[data-config="D"], .config-btn[data-config="D"], .config-btn[data-config="N"], .config-btn[data-config="M"]').forEach(b => {
+                            b.style.background = '#2a2a2a';
+                            b.style.borderColor = '#3a3a3a';
+                        });
+                        this.style.background = '#6366f1';
+                        this.style.borderColor = '#6366f1';
+                    }
+                    
+                    updateConfigValue();
+                });
+            });
+        });
+
+        function openModal(side, index) {
+            activeSlotSide = side;
+            activeSlotIndex = index;
+            currentCategory = 'pets';
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.category-btn[data-category="pets"]').classList.add('active');
+            displayModalItems();
+            modal.show();
+        }
+
+        function displayModalItems() {
+            const grid = document.getElementById('modalItemsGrid');
+            grid.innerHTML = '';
+
+            const searchTerm = document.getElementById('modalSearch').value.toLowerCase();
+            let items = allItems[currentCategory] || [];
+
+            if (searchTerm) {
+                items = items.filter(item => item.name.toLowerCase().includes(searchTerm));
+            }
+
+            items.forEach(item => {
+                const col = document.createElement('div');
+                col.className = 'col';
+                
+                const rarityClass = item.rarity === 'Legendary' ? 'legendary-glow' :
+                                   item.rarity === 'Ultra Rare' ? 'ultra-rare-glow' :
+                                   item.rarity === 'Rare' ? 'rare-glow' : '';
+                                   item.rarity === 'Uncommon' ? 'uncommon-glow' : '';
+                                   item.rarity === 'Common' ? 'common-glow' : '';
+
+                col.innerHTML = `
+                    <div class="pet-card glass-card rounded-3 p-3 text-center ${rarityClass}" style="cursor: pointer; background: #2a2a2a;">
+                        <div class="fs-1 mb-2">${item.image}</div>
+                        <div class="fw-bold small mb-2" style="font-size: 0.75rem;">${item.name}</div>
+                        <div class="badge bg-primary">${item.value}</div>
+                    </div>
+                `;
+                
+                col.querySelector('.pet-card').addEventListener('click', () => selectItem(item));
+                grid.appendChild(col);
+            });
+        }
+
+        function selectItem(item) {
+            // If it's a pet, open configuration modal
+            if (currentCategory === 'pets') {
+                selectedPetForConfig = item;
+                modal.hide();
+                
+                // Reset configuration
+                petConfig = { F: false, R: false, age: 'D', quantity: 1 };
+                
+                // Update UI
+                document.getElementById('configPetImage').textContent = item.image;
+                document.getElementById('configPetName').textContent = item.name;
+                document.getElementById('configPetBaseValue').textContent = item.value;
+                document.getElementById('petQuantity').textContent = '1';
+                
+                // Reset buttons
+                document.querySelectorAll('.config-btn').forEach(btn => {
+                    const config = btn.dataset.config;
+                    if (config === 'F' || config === 'R') {
+                        btn.style.background = '#2a2a2a';
+                        btn.style.borderColor = '#3a3a3a';
+                    } else if (config === 'D') {
+                        btn.style.background = '#6366f1';
+                        btn.style.borderColor = '#6366f1';
+                    } else {
+                        btn.style.background = '#2a2a2a';
+                        btn.style.borderColor = '#3a3a3a';
+                    }
+                });
+                
+                updateConfigValue();
+                petConfigModal.show();
+            } else {
+                // For non-pets, add directly
+                if (activeSlotSide === 'your') {
+                    yourOfferItems[activeSlotIndex] = item;
+                    
+                    const filledCount = yourOfferItems.filter(i => i).length;
+                    if (filledCount === yourMaxSlots && yourMaxSlots < 18) {
+                        expandSlots('your');
+                    }
+                } else {
+                    theirOfferItems[activeSlotIndex] = item;
+                    
+                    const filledCount = theirOfferItems.filter(i => i).length;
+                    if (filledCount === theirMaxSlots && theirMaxSlots < 18) {
+                        expandSlots('their');
+                    }
+                }
+                updateSlotDisplay();
+                calculateTrade();
+                modal.hide();
+            }
+        }
+
+        function updateConfigValue() {
+            if (!selectedPetForConfig) return;
+            
+            let multiplier = 1;
+            
+            // Calculate multiplier based on configuration
+            if (petConfig.F) multiplier *= 1.5;
+            if (petConfig.R) multiplier *= 1.3;
+            if (petConfig.age === 'N') multiplier *= 3.2;
+            if (petConfig.age === 'M') multiplier *= 10.7;
+            // D (Default) has no multiplier
+            
+            const totalValue = Math.round(selectedPetForConfig.value * multiplier * petConfig.quantity);
+            document.getElementById('configTotalValue').textContent = totalValue;
+        }
+
+        function incrementQuantity() {
+            petConfig.quantity++;
+            document.getElementById('petQuantity').textContent = petConfig.quantity;
+            updateConfigValue();
+        }
+
+        function decrementQuantity() {
+            if (petConfig.quantity > 1) {
+                petConfig.quantity--;
+                document.getElementById('petQuantity').textContent = petConfig.quantity;
+                updateConfigValue();
+            }
+        }
+
+        function addConfiguredPet() {
+            if (!selectedPetForConfig) return;
+            
+            // Calculate multiplier
+            let multiplier = 1;
+            if (petConfig.F) multiplier *= 1.5;
+            if (petConfig.R) multiplier *= 1.3;
+            if (petConfig.age === 'N') multiplier *= 3.2;
+            if (petConfig.age === 'M') multiplier *= 10.7;
+            
+            const singleValue = Math.round(selectedPetForConfig.value * multiplier);
+            
+            // Create display suffix
+            let configText = '';
+            if (petConfig.F) configText += ' (F)';
+            if (petConfig.R) configText += ' (R)';
+            if (petConfig.age !== 'D') configText += ` (${petConfig.age})`;
+            
+            // Add items to slots (one item per slot based on quantity)
+            const quantity = petConfig.quantity;
+            let addedCount = 0;
+            
+            // Find available slots and add items
+            if (activeSlotSide === 'your') {
+                for (let q = 0; q < quantity; q++) {
+                    // Find next empty slot starting from activeSlotIndex
+                    let slotIndex = -1;
+                    for (let i = activeSlotIndex; i < yourOfferItems.length + 10; i++) {
+                        if (!yourOfferItems[i]) {
+                            slotIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    // If no empty slot found in current range, expand if possible
+                    if (slotIndex === -1 || slotIndex >= yourMaxSlots) {
+                        if (yourMaxSlots < 18) {
+                            expandSlots('your');
+                            slotIndex = yourMaxSlots - 3; // Use first slot of newly expanded slots
+                        } else {
+                            break; // Can't add more, slots full
+                        }
+                    }
+                    
+                    // Create configured item
+                    const configuredItem = {
+                        ...selectedPetForConfig,
+                        value: singleValue,
+                        originalValue: selectedPetForConfig.value,
+                        config: { ...petConfig, quantity: 1 },
+                        displayName: `${selectedPetForConfig.name}${configText}`
+                    };
+                    
+                    yourOfferItems[slotIndex] = configuredItem;
+                    addedCount++;
+                }
+            } else {
+                for (let q = 0; q < quantity; q++) {
+                    // Find next empty slot starting from activeSlotIndex
+                    let slotIndex = -1;
+                    for (let i = activeSlotIndex; i < theirOfferItems.length + 10; i++) {
+                        if (!theirOfferItems[i]) {
+                            slotIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    // If no empty slot found in current range, expand if possible
+                    if (slotIndex === -1 || slotIndex >= theirMaxSlots) {
+                        if (theirMaxSlots < 18) {
+                            expandSlots('their');
+                            slotIndex = theirMaxSlots - 3; // Use first slot of newly expanded slots
+                        } else {
+                            break; // Can't add more, slots full
+                        }
+                    }
+                    
+                    // Create configured item
+                    const configuredItem = {
+                        ...selectedPetForConfig,
+                        value: singleValue,
+                        originalValue: selectedPetForConfig.value,
+                        config: { ...petConfig, quantity: 1 },
+                        displayName: `${selectedPetForConfig.name}${configText}`
+                    };
+                    
+                    theirOfferItems[slotIndex] = configuredItem;
+                    addedCount++;
+                }
+            }
+            
+            updateSlotDisplay();
+            calculateTrade();
+            petConfigModal.hide();
+        }
+
+        function expandSlots(side) {
+            if (side === 'your' && yourMaxSlots < 18) {
+                yourMaxSlots += 3;
+                const container = document.getElementById('yourOffer');
+                
+                // Add 3 new slots
+                for (let i = yourMaxSlots - 3; i < yourMaxSlots; i++) {
+                    const col = document.createElement('div');
+                    col.className = 'col-4';
+                    col.innerHTML = `
+                        <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', ${i})"></div>
+                    `;
+                    container.appendChild(col);
+                }
+                
+                updateSlotDisplay();
+            } else if (side === 'their' && theirMaxSlots < 18) {
+                theirMaxSlots += 3;
+                const container = document.getElementById('theirOffer');
+                
+                // Add 3 new slots
+                for (let i = theirMaxSlots - 3; i < theirMaxSlots; i++) {
+                    const col = document.createElement('div');
+                    col.className = 'col-4';
+                    col.innerHTML = `
+                        <div class="slot rounded-3" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', ${i})"></div>
+                    `;
+                    container.appendChild(col);
+                }
+                
+                updateSlotDisplay();
+            }
+        }
+
+        function updateSlotDisplay() {
+            const yourSlots = document.querySelectorAll('#yourOffer .slot');
+            const theirSlots = document.querySelectorAll('#theirOffer .slot');
+
+            // Update Your Offer
+            yourSlots.forEach((slot, index) => {
+                if (yourOfferItems[index]) {
+                    const item = yourOfferItems[index];
+                    const displayName = item.displayName || item.name;
+                    slot.innerHTML = `
+                        <div class="position-relative h-100 d-flex flex-column align-items-center justify-content-center">
+                            <div class="fs-2 mb-1">${item.image}</div>
+                            <small class="text-white fw-bold text-center" style="font-size: 0.55rem; line-height: 1.2;">${displayName}</small>
+                            <span class="badge bg-white text-dark mt-1" style="font-size: 0.65rem;">${item.value}</span>
+                            <button onclick="removeItem('your', ${index})" class="btn btn-danger btn-sm rounded-circle position-absolute" style="width: 22px; height: 22px; padding: 0; top: 3px; right: 3px; font-size: 0.7rem; line-height: 1;">×</button>
+                        </div>
+                    `;
+                } else if (index === 0) {
+                    slot.innerHTML = '<span class="display-4 text-muted fw-bold">+</span>';
+                } else {
+                    slot.innerHTML = '';
+                }
+            });
+
+            // Update Their Offer
+            theirSlots.forEach((slot, index) => {
+                if (theirOfferItems[index]) {
+                    const item = theirOfferItems[index];
+                    const displayName = item.displayName || item.name;
+                    slot.innerHTML = `
+                        <div class="position-relative h-100 d-flex flex-column align-items-center justify-content-center">
+                            <div class="fs-2 mb-1">${item.image}</div>
+                            <small class="text-white fw-bold text-center" style="font-size: 0.55rem; line-height: 1.2;">${displayName}</small>
+                            <span class="badge bg-white text-dark mt-1" style="font-size: 0.65rem;">${item.value}</span>
+                            <button onclick="removeItem('their', ${index})" class="btn btn-danger btn-sm rounded-circle position-absolute" style="width: 22px; height: 22px; padding: 0; top: 3px; right: 3px; font-size: 0.7rem; line-height: 1;">×</button>
+                        </div>
+                    `;
+                } else if (index === 0) {
+                    slot.innerHTML = '<span class="display-4 text-muted fw-bold">+</span>';
+                } else {
+                    slot.innerHTML = '';
+                }
+            });
+
+            // Update counter
+            const yourCount = yourOfferItems.filter(item => item).length;
+            const theirCount = theirOfferItems.filter(item => item).length;
+            document.getElementById('yourCount').textContent = `${yourCount}/${yourMaxSlots}`;
+            document.getElementById('theirCount').textContent = `${theirCount}/${theirMaxSlots}`;
+        }
+
+        function removeItem(side, index) {
+            if (side === 'your') {
+                yourOfferItems[index] = null;
+            } else {
+                theirOfferItems[index] = null;
+            }
+            updateSlotDisplay();
+            calculateTrade();
+        }
+
+        function calculateTrade() {
+            const yourTotal = yourOfferItems.reduce((sum, item) => sum + (item ? item.value : 0), 0);
+            const theirTotal = theirOfferItems.reduce((sum, item) => sum + (item ? item.value : 0), 0);
+
+            document.getElementById('yourValue').textContent = yourTotal;
+            document.getElementById('theirValue').textContent = theirTotal;
+
+            const totalValue = yourTotal + theirTotal;
+            let yourPercentage = 50;
+            
+            if (totalValue > 0) {
+                yourPercentage = (yourTotal / totalValue) * 100;
+            }
+
+            const tradeBar = document.getElementById('tradeBar');
+            tradeBar.style.width = yourPercentage + '%';
+
+            // Update difference
+            const difference = Math.abs(yourTotal - theirTotal);
+            const differenceEl = document.getElementById('tradeDifference');
+            differenceEl.textContent = difference;
+            
+            if (yourTotal > theirTotal) {
+                differenceEl.className = 'h3 fw-bold mt-3 text-danger';
+            } else if (theirTotal > yourTotal) {
+                differenceEl.className = 'h3 fw-bold mt-3 text-success';
+            } else {
+                differenceEl.className = 'h3 fw-bold mt-3 text-muted';
+            }
+        }
+
+        function clearTrade() {
+            yourOfferItems = [];
+            theirOfferItems = [];
+            yourMaxSlots = 9;
+            theirMaxSlots = 9;
+            
+            // Reset slots to initial 9
+            const yourContainer = document.getElementById('yourOffer');
+            const theirContainer = document.getElementById('theirOffer');
+            
+            // Clear and recreate initial 9 slots for Your Offer
+            yourContainer.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const col = document.createElement('div');
+                col.className = 'col-4';
+                const plusSign = i === 0 ? '<span class="display-4 text-muted fw-bold">+</span>' : '';
+                col.innerHTML = `
+                    <div class="slot rounded-3 ${i === 0 ? 'd-flex align-items-center justify-content-center' : ''}" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('your', ${i})">${plusSign}</div>
+                `;
+                yourContainer.appendChild(col);
+            }
+            
+            // Clear and recreate initial 9 slots for Their Offer
+            theirContainer.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const col = document.createElement('div');
+                col.className = 'col-4';
+                const plusSign = i === 0 ? '<span class="display-4 text-muted fw-bold">+</span>' : '';
+                col.innerHTML = `
+                    <div class="slot rounded-3 ${i === 0 ? 'd-flex align-items-center justify-content-center' : ''}" style="aspect-ratio: 1; background: #1a1a1a; border: 2px solid #2a2a2a;" onclick="openModal('their', ${i})">${plusSign}</div>
+                `;
+                theirContainer.appendChild(col);
+            }
+            
+            updateSlotDisplay();
+            calculateTrade();
+        }
+
+        function swapTrade() {
+            const temp = [...yourOfferItems];
+            yourOfferItems = [...theirOfferItems];
+            theirOfferItems = temp;
+            updateSlotDisplay();
+            calculateTrade();
+        }
+    </script>
+</body>
+</html>

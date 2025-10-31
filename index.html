@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt Me - Home</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #fff, transparent);
+            border-radius: 50%;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ffd700, transparent);
+            border-radius: 50%;
+            top: 50%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+        
+        .shape3 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #ff69b4, transparent);
+            border-radius: 50%;
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 10s;
+        }
+        
+        .shape4 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #00ffff, transparent);
+            border-radius: 50%;
+            top: 30%;
+            right: 30%;
+            animation-delay: 15s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            33% { transform: translate(50px, -80px) rotate(120deg) scale(1.1); }
+            66% { transform: translate(-50px, 50px) rotate(240deg) scale(0.9); }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.8rem;
+        }
+        
+        .carousel-item img {
+            height: 500px;
+            object-fit: cover;
+            border-radius: 25px;
+        }
+        
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787, #ffa07a);
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+        
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-gradient:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .hero-section {
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+        <div class="shape shape4"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar glass-card position-relative" style="z-index: 10; margin: 1rem; border-radius: 25px;">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center">
+                <div class="bg-gradient rounded-4 p-3 me-3 pulse" style="background: linear-gradient(135deg, #ffd700, #ff6b6b, #9d4edd) !important;">
+                    <span style="font-size: 2rem;">🐾</span>
+                </div>
+                <div>
+                    <h1 class="navbar-brand mb-0" style="background: linear-gradient(135deg, #667eea, #764ba2); background-clip: text; -webkit-text-fill-color: transparent;">
+                        Adopt Me Trade Center
+                    </h1>
+                    <small class="text-muted fw-bold">2025 Value</small>
+                </div>
+            </div>
+            <div class="d-flex gap-3">
+               
+                <a href="#home" class="btn btn-gradient text-white px-4 py-2 rounded-pill fw-bold">
+                    <i class="bi bi-lightning-charge-fill me-2"></i>Home
+                </a>
+                 <a href="value.html" class="btn btn-light rounded-pill px-4 py-2 fw-bold">Value Data</a>
+                 <a href="trade.html" class="btn btn-light rounded-pill px-4 py-2 fw-bold">Calculator</a>
+                <a href="#about" class="btn btn-light rounded-pill px-4 py-2 fw-bold">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-3 py-4 position-relative" style="z-index: 10;">
+        <!-- Hero Section with Carousel -->
+        <div class="hero-section">
+            <div id="picture" class="carousel slide glass-card rounded-4 overflow-hidden" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#picture" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#picture" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#picture" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://via.placeholder.com/1200x500/667eea/ffffff?text=Adopt+Me+Pets" class="d-block w-100" alt="adoptme png">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 class="display-4 fw-black glow-text">Welcome to Adopt Me Trading Calculator</h5>
+                            <p class="h4">Discover the value of your trades.</p>
+                            <a href="trade.html" class="btn btn-gradient btn-lg rounded-pill px-5 fw-bold">
+                                <i class="bi bi-play-circle-fill me-2"></i>Start Trading Now
+                            </a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://via.placeholder.com/1200x500/764ba2/ffffff?text=Trading+Calculator" class="d-block w-100" alt="adoptme png">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 class="display-4 fw-black glow-text">Master the Trades</h5>
+                            <p class="h4">Use our advanced calculator to evaluate your offers and make fair trades with other.</p>
+                            <a href="trade.html" class="btn btn-gradient btn-lg rounded-pill px-5 fw-bold">
+                                <i class="bi bi-calculator-fill me-2"></i>Calculate Now
+                            </a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://via.placeholder.com/1200x500/f093fb/ffffff?text=Rare+Eggs+%26+Items" class="d-block w-100" alt="adoptme png">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 class="display-4 fw-black glow-text">Collect Rare Items</h5>
+                            <p class="h4">Explore Pets, Eggs, Toys, and Gifts to build your ultimate collection.</p>
+                            <a href="trade.html" class="btn btn-gradient btn-lg rounded-pill px-5 fw-bold">
+                                <i class="bi bi-gem me-2"></i>Explore Items
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#adoptMeCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#adoptMeCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Additional Content (Optional) -->
+        <div class="glass-card rounded-4 p-4 mt-4 text-center">
+            
+            <h2 id="about" class="display-5 fw-black mb-4" style="background: linear-gradient(135deg, #667eea, #764ba2); background-clip: text; -webkit-text-fill-color: transparent;">
+                Why Choose Adopt Me Trading Calculator?
+            </h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="p-3">
+                        <i class="bi bi-star-fill display-1 text-warning"></i>
+                        <h5 class="mt-3">Accurate Values</h5>
+                        <p>Real-time pricing for all pets, eggs, and items based on the latest market data.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3">
+                        <i class="bi bi-shield-check display-1 text-success"></i>
+                        <h5 class="mt-3">Fair Trades</h5>
+                        <p>Ensure every trade is balanced with our intuitive calculator interface.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3">
+                        <i class="bi bi-rocket-takeoff display-1 text-primary"></i>
+                        <h5 class="mt-3">Easy to Use</h5>
+                        <p>Drag, drop, and calculate in seconds with our sleek, responsive design.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
